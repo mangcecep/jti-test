@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jti_test/widgets/home_screen.dart';
+import 'package:jti_test/widgets/top_bar_widgets.dart';
 
 void main() => runApp(const MyApp());
 
@@ -85,41 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  for (int index = 0; index < _listOfMenu.length; index++) ...[
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () => onTapMenu(index),
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                _index == index
-                                    ? _listOfMenu[index]['imgUrlActive']
-                                    : _listOfMenu[index]['imgUrlInActive'],
-                                width: 50,
-                              ),
-                              Text(
-                                _listOfMenu[index]['title'],
-                                style: TextStyle(
-                                    color: _index == index
-                                        ? const Color(0xFF2787BD)
-                                        : const Color(0xFF2787BD)
-                                            .withOpacity(0.3)),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ],
-              ),
+            TopBarWidgets(
+              indexMenu: _index,
+              listOfMenu: _listOfMenu,
+              onTapMenu: onTapMenu,
             ),
+            const HomeScreen(),
           ],
         ),
       ),
