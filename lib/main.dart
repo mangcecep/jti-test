@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:jti_test/services/flutter_background_services.dart';
 import 'package:jti_test/widgets/home_screen.dart';
 import 'package:jti_test/widgets/top_bar_widgets.dart';
 
-void main() => runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
+  await BackgroundService.instance.init();
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -112,7 +117,6 @@ class _MyHomePageState extends State<MyHomePage> {
               const Center(
                 child: Text(
                   'Screen Tools',
-                  style: TextStyle(color: Colors.white),
                 ),
               ),
           ],

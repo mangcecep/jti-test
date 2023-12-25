@@ -23,6 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Color _color = Color(0xFFC1DDED);
   double _opacity = 1.0;
   final int _duration = 1;
+  final int widthMin = 80;
+  final double widthMax = 340;
+  late int widthWidget = 80;
 
   late bool _isClose = false;
 
@@ -46,22 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
         });
         print('JSON DATA: $_data');
       }
-      // if (code == 401) {
-      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //     backgroundColor: Colors.red,
-      //     content: Text(jsonData['message'].toString()),
-      //     action: SnackBarAction(
-      //       label: 'Opps!',
-      //       onPressed: () {},
-      //     ),
-      //   ));
-      // }
     } catch (e) {
       String message = e.toString();
-      // String isConnectionFail =
-      //     message.contains('ClientException with SocketException')
-      //         ? "No Internet Connection!"
-      //         : message;
+
       print(message);
     }
   }
@@ -169,15 +159,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                     if (_isClose) {
                       setState(() {
-                        _width = 340;
+                        _width = widthMax;
                         _opacity = 0.5;
                       });
+                      for (widthWidget;
+                          widthWidget < widthMax;
+                          widthWidget + 10) {
+                        widthWidget += 5;
+                        print(widthWidget);
+                      }
                       return;
+                    }
+                    for (widthWidget;
+                        widthWidget > widthMin;
+                        widthWidget - 10) {
+                      widthWidget -= 5;
+                      print(widthWidget);
                     }
                     setState(() {
                       _width = 80;
                       _opacity = 1.0;
                     });
+                    print(widthWidget);
                   },
                   child: Center(
                     child: Padding(
@@ -196,239 +199,248 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: _width == 340,
-                  child: Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: _color,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 4.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  visible: widthWidget == widthMax,
+                  child: widthWidget == widthMax
+                      ? Expanded(
+                          flex: 1,
+                          child: Container(
+                            color: _color,
+                            child: Column(
                               children: [
-                                InkWell(
-                                  onTap: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => MasukScreen(
-                                        outletSub: _outletSub,
-                                        currency: _data,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Column(
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 4.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Image.asset(
-                                        'images/Button Input Masuk.png',
-                                        width: 25,
-                                      ),
-                                      const Text(
-                                        'MASUK',
-                                        style: TextStyle(
-                                          color: Color(0xFF2787BD),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
+                                      InkWell(
+                                        onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => MasukScreen(
+                                              outletSub: _outletSub,
+                                              currency: _data,
+                                            ),
+                                          ),
                                         ),
-                                      )
+                                        child: Column(
+                                          children: [
+                                            Image.asset(
+                                              'images/Button Input Masuk.png',
+                                              width: 25,
+                                            ),
+                                            const Text(
+                                              'MASUK',
+                                              style: TextStyle(
+                                                color: Color(0xFF2787BD),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => KeluarScreen(
+                                              outletSub: _outletSub,
+                                              currency: _data,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Image.asset(
+                                              'images/Button Input Keluar.png',
+                                              width: 25,
+                                            ),
+                                            const Text(
+                                              'KELUAR',
+                                              style: TextStyle(
+                                                color: Color(0xFF2787BD),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => PindahScreen(
+                                              outletSub: _outletSub,
+                                              currency: _data,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Image.asset(
+                                              'images/Button Input Pindah.png',
+                                              width: 25,
+                                            ),
+                                            const Text(
+                                              'PINDAH',
+                                              style: TextStyle(
+                                                color: Color(0xFF2787BD),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PindahKursScreen(
+                                              outletSub: _outletSub,
+                                              currency: _data,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Image.asset(
+                                              'images/Button Input Mutasi.png',
+                                              width: 25,
+                                            ),
+                                            const Text(
+                                              'MUTASI',
+                                              style: TextStyle(
+                                                color: Color(0xFF2787BD),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => KursScreen(
+                                              outletSub: _outletSub,
+                                              currency: _data,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Image.asset(
+                                              'images/Button Input Kurs.png',
+                                              width: 25,
+                                            ),
+                                            const Text(
+                                              'KURS',
+                                              style: TextStyle(
+                                                color: Color(0xFF2787BD),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => KeluarScreen(
-                                        outletSub: _outletSub,
-                                        currency: _data,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Image.asset(
-                                        'images/Button Input Keluar.png',
-                                        width: 25,
-                                      ),
-                                      const Text(
-                                        'KELUAR',
-                                        style: TextStyle(
-                                          color: Color(0xFF2787BD),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 8.0),
+                                  child: Card(
+                                    child: Column(children: [
+                                      const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Jumlah Barang',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              '16',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => PindahScreen(
-                                        outletSub: _outletSub,
-                                        currency: _data,
                                       ),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Image.asset(
-                                        'images/Button Input Pindah.png',
-                                        width: 25,
-                                      ),
-                                      const Text(
-                                        'PINDAH',
-                                        style: TextStyle(
-                                          color: Color(0xFF2787BD),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => PindahKursScreen(
-                                        outletSub: _outletSub,
-                                        currency: _data,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Image.asset(
-                                        'images/Button Input Mutasi.png',
-                                        width: 25,
-                                      ),
-                                      const Text(
-                                        'MUTASI',
-                                        style: TextStyle(
-                                          color: Color(0xFF2787BD),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => KursScreen(
-                                        outletSub: _outletSub,
-                                        currency: _data,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Image.asset(
-                                        'images/Button Input Kurs.png',
-                                        width: 25,
-                                      ),
-                                      const Text(
-                                        'KURS',
-                                        style: TextStyle(
-                                          color: Color(0xFF2787BD),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                      )
-                                    ],
+                                      if (_data.isNotEmpty)
+                                        for (int index = 0;
+                                            index < _data.length;
+                                            index++) ...[
+                                          Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text(
+                                                  'Total ${_data[index]['ct_nama']}',
+                                                  style: const TextStyle(
+                                                    color: Color(0xFF2787BD),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                _data[index]['ct_nama'] == 'IDR'
+                                                    ? Text(
+                                                        '${_data[index]['ct_logo']} 1.000.000.000',
+                                                        style: const TextStyle(
+                                                          color:
+                                                              Color(0xFF2787BD),
+                                                        ),
+                                                      )
+                                                    : _data[index]['ct_nama'] ==
+                                                            'EUR'
+                                                        ? Text(
+                                                            '${_data[index]['ct_logo']} 200',
+                                                            style:
+                                                                const TextStyle(
+                                                              color: Color(
+                                                                  0xFF2787BD),
+                                                            ),
+                                                          )
+                                                        : _data[index][
+                                                                    'ct_nama'] ==
+                                                                'USD'
+                                                            ? Text(
+                                                                '${_data[index]['ct_logo']} 2.000',
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: Color(
+                                                                      0xFF2787BD),
+                                                                ),
+                                                              )
+                                                            : Text(
+                                                                '${_data[index]['ct_logo']} 6000',
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: Color(
+                                                                      0xFF2787BD),
+                                                                ),
+                                                              ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                    ]),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4.0, horizontal: 8.0),
-                            child: Card(
-                              child: Column(children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Jumlah Barang',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        '16',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                if (_data.isNotEmpty)
-                                  for (int index = 0;
-                                      index < _data.length;
-                                      index++) ...[
-                                    Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            'Total ${_data[index]['ct_nama']}',
-                                            style: const TextStyle(
-                                              color: Color(0xFF2787BD),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          _data[index]['ct_nama'] == 'IDR'
-                                              ? Text(
-                                                  '${_data[index]['ct_logo']} 1.000.000.000',
-                                                  style: const TextStyle(
-                                                    color: Color(0xFF2787BD),
-                                                  ),
-                                                )
-                                              : _data[index]['ct_nama'] == 'EUR'
-                                                  ? Text(
-                                                      '${_data[index]['ct_logo']} 200',
-                                                      style: const TextStyle(
-                                                        color:
-                                                            Color(0xFF2787BD),
-                                                      ),
-                                                    )
-                                                  : _data[index]['ct_nama'] ==
-                                                          'USD'
-                                                      ? Text(
-                                                          '${_data[index]['ct_logo']} 2.000',
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Color(
-                                                                0xFF2787BD),
-                                                          ),
-                                                        )
-                                                      : Text(
-                                                          '${_data[index]['ct_logo']} 6000',
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Color(
-                                                                0xFF2787BD),
-                                                          ),
-                                                        ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                              ]),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        )
+                      : const Text('Loading..'),
                 )
               ],
             ),
