@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFF2787BD),
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2787BD)),
         useMaterial3: true,
       ),
@@ -92,7 +93,28 @@ class _MyHomePageState extends State<MyHomePage> {
               listOfMenu: _listOfMenu,
               onTapMenu: onTapMenu,
             ),
-            const HomeScreen(),
+            if (_index == 0) const HomeScreen(),
+            if (_index == 1)
+              const Center(
+                child: Text(
+                  'Screen Transaksi',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            if (_index == 2)
+              const Center(
+                child: Text(
+                  'Screen Laporan',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            if (_index == 3)
+              const Center(
+                child: Text(
+                  'Screen Tools',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
           ],
         ),
       ),

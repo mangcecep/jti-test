@@ -3,6 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:jti_test/constant/service_constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:jti_test/screen/keluar_screen.dart';
+import 'package:jti_test/screen/kurs_screen.dart';
+import 'package:jti_test/screen/masuk_screen.dart';
+import 'package:jti_test/screen/pindah_kurs.dart';
+import 'package:jti_test/screen/pindah_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,8 +18,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late List _data = [];
+  late List _outletSub = [];
   double _width = 80;
   Color _color = Color(0xFFC1DDED);
+  double _opacity = 1.0;
   final int _duration = 1;
 
   late bool _isClose = false;
@@ -35,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (code == 200) {
         setState(() {
           _data = jsonData['data']['cur_tipe'];
+          _outletSub = jsonData['data']['outlet_subs'];
         });
         print('JSON DATA: $_data');
       }
@@ -64,75 +72,83 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Stack(children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
-          child: Column(
-            children: [
-              const Text(
-                'Nama Outlet',
-                textAlign: TextAlign.left,
-                style: TextStyle(color: Color(0xFF2787BD)),
-              ),
-              if (_data.isNotEmpty)
-                for (int index = 0; index < _data.length; index++) ...[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: <Widget>[
-                        _data[index]['ct_nama'] == 'IDR'
-                            ? Image.asset('images/Icon Rupiah.png')
-                            : _data[index]['ct_nama'] == 'EUR'
-                                ? Image.asset('images/Icon Euro.png')
-                                : _data[index]['ct_nama'] == 'USD'
-                                    ? Image.asset('images/Icon Dollar.png')
-                                    : Image.asset(
-                                        'images/Icon Dollar Singapore.png'),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          _data[index]['ct_nama'],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+          child: Opacity(
+            opacity: _opacity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Nama Outlet',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(color: Color(0xFF2787BD)),
+                  ),
+                ),
+                if (_data.isNotEmpty)
+                  for (int index = 0; index < _data.length; index++) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          _data[index]['ct_nama'] == 'IDR'
+                              ? Image.asset('images/Icon Rupiah.png')
+                              : _data[index]['ct_nama'] == 'EUR'
+                                  ? Image.asset('images/Icon Euro.png')
+                                  : _data[index]['ct_nama'] == 'USD'
+                                      ? Image.asset('images/Icon Dollar.png')
+                                      : Image.asset(
+                                          'images/Icon Dollar Singapore.png'),
+                          const SizedBox(
+                            width: 10,
                           ),
-                        ),
-                        const Text(
-                          " -------------------------- ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF2787BD),
+                          Text(
+                            _data[index]['ct_nama'],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        _data[index]['ct_nama'] == 'IDR'
-                            ? const Text(
-                                '500.000',
-                                style: TextStyle(
-                                    color: Color(0xFF2787BD),
-                                    fontWeight: FontWeight.bold),
-                              )
-                            : _data[index]['ct_nama'] == 'EUR'
-                                ? const Text(
-                                    '20.000',
-                                    style: TextStyle(
-                                        color: Color(0xFF2787BD),
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                : _data[index]['ct_nama'] == 'USD'
-                                    ? const Text(
-                                        '0',
-                                        style: TextStyle(
-                                            color: Color(0xFF2787BD),
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    : const Text(
-                                        '6000',
-                                        style: TextStyle(
-                                            color: Color(0xFF2787BD),
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                      ],
-                    ),
-                  )
-                ],
-            ],
+                          const Text(
+                            " -------------------------- ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF2787BD),
+                            ),
+                          ),
+                          _data[index]['ct_nama'] == 'IDR'
+                              ? const Text(
+                                  '500.000',
+                                  style: TextStyle(
+                                      color: Color(0xFF2787BD),
+                                      fontWeight: FontWeight.bold),
+                                )
+                              : _data[index]['ct_nama'] == 'EUR'
+                                  ? const Text(
+                                      '20.000',
+                                      style: TextStyle(
+                                          color: Color(0xFF2787BD),
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : _data[index]['ct_nama'] == 'USD'
+                                      ? const Text(
+                                          '0',
+                                          style: TextStyle(
+                                              color: Color(0xFF2787BD),
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      : const Text(
+                                          '6000',
+                                          style: TextStyle(
+                                              color: Color(0xFF2787BD),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                        ],
+                      ),
+                    )
+                  ],
+              ],
+            ),
           ),
         ),
         AnimatedPositioned(
@@ -143,9 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             decoration: BoxDecoration(
                 color: _color,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    bottomLeft: Radius.circular(25))),
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Row(
               children: [
                 InkWell(
@@ -155,12 +169,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                     if (_isClose) {
                       setState(() {
-                        _width = 350;
+                        _width = 340;
+                        _opacity = 0.5;
                       });
                       return;
                     }
                     setState(() {
                       _width = 80;
+                      _opacity = 1.0;
                     });
                   },
                   child: Center(
@@ -180,20 +196,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: _width == 350,
+                  visible: _width == 340,
                   child: Expanded(
                     flex: 1,
                     child: Container(
                       color: _color,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: [
-                            Row(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 4.0),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MasukScreen(
+                                        outletSub: _outletSub,
+                                        currency: _data,
+                                      ),
+                                    ),
+                                  ),
                                   child: Column(
                                     children: [
                                       Image.asset(
@@ -212,12 +236,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => KeluarScreen(
+                                        outletSub: _outletSub,
+                                        currency: _data,
+                                      ),
+                                    ),
+                                  ),
                                   child: Column(
                                     children: [
                                       Image.asset(
                                         'images/Button Input Keluar.png',
-                                        width: 20,
+                                        width: 25,
                                       ),
                                       const Text(
                                         'KELUAR',
@@ -231,7 +262,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PindahScreen(
+                                        outletSub: _outletSub,
+                                        currency: _data,
+                                      ),
+                                    ),
+                                  ),
                                   child: Column(
                                     children: [
                                       Image.asset(
@@ -250,7 +288,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PindahKursScreen(
+                                        outletSub: _outletSub,
+                                        currency: _data,
+                                      ),
+                                    ),
+                                  ),
                                   child: Column(
                                     children: [
                                       Image.asset(
@@ -269,7 +314,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => KursScreen(
+                                        outletSub: _outletSub,
+                                        currency: _data,
+                                      ),
+                                    ),
+                                  ),
                                   child: Column(
                                     children: [
                                       Image.asset(
@@ -289,10 +341,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
-                            Card(
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4.0, horizontal: 8.0),
+                            child: Card(
                               child: Column(children: [
                                 const Padding(
-                                  padding: EdgeInsets.all(4.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -368,8 +424,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                               ]),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

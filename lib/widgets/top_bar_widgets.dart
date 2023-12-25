@@ -15,40 +15,43 @@ class TopBarWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for (int index = 0; index < listOfMenu.length; index++) ...[
-            Row(
-              children: [
-                InkWell(
-                  onTap: () => onTapMenu(index),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        index == indexMenu
-                            ? listOfMenu[index]['imgUrlActive']
-                            : listOfMenu[index]['imgUrlInActive'],
-                        width: 50,
-                      ),
-                      Text(
-                        listOfMenu[index]['title'],
-                        style: TextStyle(
-                          color: index == indexMenu
-                              ? const Color(0xFF2787BD)
-                              : const Color(0xFF2787BD).withOpacity(0.3),
-                          fontWeight: FontWeight.bold,
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            for (int index = 0; index < listOfMenu.length; index++) ...[
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => onTapMenu(index),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          index == indexMenu
+                              ? listOfMenu[index]['imgUrlActive']
+                              : listOfMenu[index]['imgUrlInActive'],
+                          width: 50,
                         ),
-                      )
-                    ],
+                        Text(
+                          listOfMenu[index]['title'],
+                          style: TextStyle(
+                            color: index == indexMenu
+                                ? const Color(0xFF2787BD)
+                                : const Color(0xFF2787BD).withOpacity(0.3),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
